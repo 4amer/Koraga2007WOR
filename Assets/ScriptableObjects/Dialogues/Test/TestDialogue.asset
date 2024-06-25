@@ -13,8 +13,18 @@ MonoBehaviour:
   m_Name: TestDialogue
   m_EditorClassIdentifier: 
   nextDialogueAfterEnd: {fileID: 0}
-  characterName: 
-  conversation: []
+  sentences:
+  - timeCharacterAppear: 0.5
+    characterName: "\u0425\u0443\u0439 \u0441 \u0433\u043E\u0440\u044B"
+    sentencesText: 1
+  - timeCharacterAppear: 0.5
+    characterName: "\u0425\u0443\u0439 \u0441 \u0433\u043E\u0440\u044B"
+    sentencesText: 2222222222222222222222222222
+  - timeCharacterAppear: 0.5
+    characterName: "\u0425\u0443\u0439 \u0441 \u0433\u043E\u0440\u044B"
+    sentencesText: "\u0425\u0443\u0439 \u0441\u043E\u0441\u0438 \u0445\u043E \u0445\u043E
+      \u0445\u043E"
+  answers: []
   eventAfterDialogue:
     m_PersistentCalls:
       m_Calls: []

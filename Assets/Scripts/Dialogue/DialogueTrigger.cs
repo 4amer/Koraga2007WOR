@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace DialogueSystem
 {
@@ -17,22 +19,25 @@ namespace DialogueSystem
 
         private bool isPlayerStay = false;
 
-        private void OnCollisionEnter(Collision collision)
-        {
-            if (_triggerOnEnter)
-            {
-                StartDialogue();
-            }
+        public event Action<Dialogue> DialogueStarted;
 
-            if (collision.gameObject.tag == "Player")
+        private void OnTriggerEnter(Collider other)
+        {
+
+            if (other.gameObject.tag == "Player")
             {
                 isPlayerStay = true;
+                if (_triggerOnEnter)
+                {
+
+                    StartDialogue();
+                }
             }
         }
 
-        private void OnCollisionExit(Collision collision)
+        private void OnTriggerExit(Collider other)
         {
-            if (collision.gameObject.tag == "Player")
+            if (other.gameObject.tag == "Player")
             {
                 isPlayerStay = false;
             }
@@ -46,6 +51,8 @@ namespace DialogueSystem
                 {
                     _triggerObject.active = false;
                 }
+                DialogueStarted?.Invoke(_dialogue);
+                Debug.Log("asdadasda");
             }
         }
     }

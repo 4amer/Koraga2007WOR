@@ -157,11 +157,33 @@
                 },
                 {
                     "name": "",
+                    "id": "bd9f3fc3-97ae-426a-9ee4-ec932cf2464b",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Mobile",
+                    "action": "Action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "5cf5eb53-8148-451e-b261-357c40c9476f",
                     "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard_Mouse",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "445a523c-6b68-4b8c-a9c8-0270bb5b210c",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Mobile",
                     "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -217,7 +239,7 @@
                     "id": "0f91fa9a-742c-4c4f-8dfa-2e8f278fd6df",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "SlowTap",
                     "initialStateCheck": false
                 },
                 {
@@ -284,11 +306,33 @@
                 },
                 {
                     "name": "",
+                    "id": "d73708e6-1805-4df5-9fb4-2d0e731c6fa7",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Mobile",
+                    "action": "Accept",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "d27d973b-972a-4cd6-a0b7-56a88732f515",
                     "path": "<Keyboard>/rightArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard_Mouse",
+                    "action": "SelectRightAnswer",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "db18ffa0-c1c3-4306-b166-ca3f3ef89142",
+                    "path": "<Gamepad>/leftStick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Mobile",
                     "action": "SelectRightAnswer",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -306,11 +350,33 @@
                 },
                 {
                     "name": "",
+                    "id": "fe72a67a-e7ba-4c5c-8f81-15647feb1130",
+                    "path": "<Gamepad>/leftStick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Mobile",
+                    "action": "SelectLeftAnswer",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "132e41b7-c138-4e03-ae7c-9b5b887c155c",
                     "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard_Mouse",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e0abe6e1-0fb6-4272-9276-aa6449447401",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Mobile",
                     "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
