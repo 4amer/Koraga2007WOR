@@ -6,6 +6,8 @@ namespace UI
     {
         public override void InstallBindings()
         {
+            Container.Bind<IViewManager>().To<ViewManager>().FromComponentInHierarchy().AsSingle();
+
             Container.Bind<DialogueView>().FromComponentInHierarchy().AsSingle();
             Container.Bind<DialogueModel>().AsSingle().NonLazy();
             Container.Bind<DialogueViewModel>().AsSingle().NonLazy();

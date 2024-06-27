@@ -5,11 +5,11 @@ namespace UI
 {
     public class DialogueModel
     {
-        private DialogueManager _dialogueManager;
+        private IDialogueManager _dialogueManager;
         /*test*/private DialogueViewModel _viewModel;
 
         [Inject]
-        public void Construct(DialogueManager dm, /* test */ DialogueViewModel dvm)
+        public void Construct(IDialogueManager dm, /* test */ DialogueViewModel dvm)
         {
             _dialogueManager = dm;
             /*test*/ _viewModel = dvm; _dialogueManager.DialogueStart += StartDialogue;

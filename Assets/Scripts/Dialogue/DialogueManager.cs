@@ -1,24 +1,26 @@
-using DialogueSystem;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using UI;
+using UnityEngine;
 using Zenject;
 
 namespace DialogueSystem
 {
-    public class DialogueManager
+    public sealed class DialogueManager : IDialogueManager
     {
+        private IViewManager _viewManager;
+
         private Dialogue _currentDialogue;
         private Queue<Sentence> _sentences;
-
 
         public event Action DialogueEnd;
         public event Action DialogueStart;
         public event Action<DialogueAnswer[]> HasAnswers;
 
         [Inject]
-        public void Construct(DialogueTrigger[] triggers)
+        public void Construct(DialogueTrigger[] triggers, IViewManager vm)
         {
+            _viewManager = vm;
             foreach (DialogueTrigger trigger in triggers)
             {
                 trigger.DialogueStarted += StartDialogue;
@@ -29,6 +31,8 @@ namespace DialogueSystem
         {
             _currentDialogue = dialogue;
             _sentences = new Queue<Sentence>(_currentDialogue.sentences);
+            Debug.Log(_viewManager == null);
+            _viewManager.ShowView(WindowTypes.DialogueWindow);
             DialogueStart?.Invoke();
         }
 
@@ -37,6 +41,7 @@ namespace DialogueSystem
             if (_currentDialogue.nextDialogueAfterEnd == null)
             {
                 DialogueEnd?.Invoke();
+                _viewManager.HideView(WindowTypes.DialogueWindow);
                 _currentDialogue = null;
                 return;
             }
@@ -59,5 +64,13 @@ namespace DialogueSystem
             if (_currentDialogue == null) return null;
             return _sentences.Dequeue();
         }
+    }
+
+    public interface IDialogueManager
+    {
+        public event Action DialogueEnd;
+        public event Action DialogueStart;
+        public event Action<DialogueAnswer[]> HasAnswers;
+        public Sentence NextSetence();
     }
 }

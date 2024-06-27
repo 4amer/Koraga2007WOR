@@ -6,7 +6,7 @@ namespace DialogueSystem
     {
         public override void InstallBindings()
         {
-            Container.Bind<DialogueManager>().AsSingle().NonLazy();
+            Container.Bind<IDialogueManager>().To<DialogueManager>().AsSingle().NonLazy();
             Container.Bind<DialogueTrigger>().FromComponentsInHierarchy().AsSingle();
         }
     }

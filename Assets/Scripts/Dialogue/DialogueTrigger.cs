@@ -52,7 +52,6 @@ namespace DialogueSystem
                     _triggerObject.active = false;
                 }
                 DialogueStarted?.Invoke(_dialogue);
-                Debug.Log("asdadasda");
             }
         }
     }
