@@ -20,6 +20,9 @@ namespace DialogueSystem
         private bool isPlayerStay = false;
 
         public event Action<Dialogue> DialogueStarted;
+        public event Action<DialogueTrigger> PlayerEntered;
+        public event Action<DialogueTrigger> PlayerExited;
+
 
         private void OnTriggerEnter(Collider other)
         {
@@ -29,8 +32,11 @@ namespace DialogueSystem
                 isPlayerStay = true;
                 if (_triggerOnEnter)
                 {
-
                     StartDialogue();
+                } 
+                else
+                {
+                    PlayerEntered?.Invoke(this);
                 }
             }
         }
@@ -40,6 +46,7 @@ namespace DialogueSystem
             if (other.gameObject.tag == "Player")
             {
                 isPlayerStay = false;
+                PlayerExited?.Invoke(this);
             }
         }
 
@@ -53,6 +60,14 @@ namespace DialogueSystem
                 }
                 DialogueStarted?.Invoke(_dialogue);
             }
+        }
+
+        public Dialogue Dialogue 
+        { 
+            get 
+            { 
+                return _dialogue; 
+            } 
         }
     }
 }

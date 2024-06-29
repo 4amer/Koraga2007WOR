@@ -1,3 +1,4 @@
+using FMS.Game;
 using Zenject;
 
 namespace DialogueSystem
@@ -6,8 +7,8 @@ namespace DialogueSystem
     {
         public override void InstallBindings()
         {
-            Container.Bind<IDialogueManager>().To<DialogueManager>().AsSingle().NonLazy();
-            Container.Bind<DialogueTrigger>().FromComponentsInHierarchy().AsSingle();
+            Container.Bind<IDialogueManager>().To<DialogueManager>().FromComponentInHierarchy().AsSingle().NonLazy();
+            Container.Bind<DialogueTrigger>().FromComponentsInHierarchy().AsSingle().NonLazy();
         }
     }
 }

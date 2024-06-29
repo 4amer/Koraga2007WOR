@@ -12,6 +12,11 @@ namespace UI
 
         public event Action NextSentenceClicked;
 
+        private void OnEnable()
+        {
+            NextSentenceClicked?.Invoke();
+        }
+
         public void ButtonNextSentenceClicked(InputAction.CallbackContext callback)
         {
             if(callback.control.magnitude == 0)

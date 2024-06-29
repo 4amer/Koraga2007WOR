@@ -2,11 +2,12 @@ using System;
 using System.Collections.Generic;
 using UI;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Zenject;
 
 namespace DialogueSystem
 {
-    public sealed class DialogueManager : IDialogueManager
+    public sealed class DialogueManager : MonoBehaviour, IDialogueManager
     {
         private IViewManager _viewManager;
 
@@ -17,6 +18,12 @@ namespace DialogueSystem
         public event Action DialogueStart;
         public event Action<DialogueAnswer[]> HasAnswers;
 
+        private event Action EtheractButtonClicked;
+
+        private bool _idDialogueStarted = false;
+
+        private List<DialogueTrigger> _triggersWherePlayerStay = new List<DialogueTrigger>();
+
         [Inject]
         public void Construct(DialogueTrigger[] triggers, IViewManager vm)
         {
@@ -24,6 +31,8 @@ namespace DialogueSystem
             foreach (DialogueTrigger trigger in triggers)
             {
                 trigger.DialogueStarted += StartDialogue;
+                trigger.PlayerEntered += AddTriggertToList;
+                trigger.PlayerExited += RemoveTriggertToList;
             }
         }
 
@@ -33,6 +42,7 @@ namespace DialogueSystem
             _sentences = new Queue<Sentence>(_currentDialogue.sentences);
             Debug.Log(_viewManager == null);
             _viewManager.ShowView(WindowTypes.DialogueWindow);
+            _idDialogueStarted = true;
             DialogueStart?.Invoke();
         }
 
@@ -42,6 +52,7 @@ namespace DialogueSystem
             {
                 DialogueEnd?.Invoke();
                 _viewManager.HideView(WindowTypes.DialogueWindow);
+                _idDialogueStarted = false;
                 _currentDialogue = null;
                 return;
             }
@@ -63,6 +74,23 @@ namespace DialogueSystem
             }
             if (_currentDialogue == null) return null;
             return _sentences.Dequeue();
+        }
+
+        private void AddTriggertToList(DialogueTrigger trigger)
+        {
+            _triggersWherePlayerStay.Add(trigger);
+        }
+
+        private void RemoveTriggertToList(DialogueTrigger trigger)
+        {
+            _triggersWherePlayerStay.Remove(trigger);
+        }
+
+        public void EtheractButtonClick(InputAction.CallbackContext context)
+        {
+            if (_triggersWherePlayerStay.Count == 0 || _idDialogueStarted) return;
+
+            StartDialogue(_triggersWherePlayerStay[0].Dialogue);
         }
     }
 
