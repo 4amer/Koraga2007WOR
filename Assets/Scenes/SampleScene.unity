@@ -1088,6 +1088,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 6d55d6a4-246a-470b-8893-15ebad6037ce
     m_ActionName: Dialogue/Pause[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 44497388-e8eb-4f44-8777-160c2c25f36d
+    m_ActionName: GamePlay/AbilityAction[/Mouse/position]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Dialogue
@@ -7614,6 +7618,7 @@ GameObject:
   - component: {fileID: 1381585818}
   - component: {fileID: 1381585817}
   - component: {fileID: 1381585819}
+  - component: {fileID: 1381585820}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -7770,7 +7775,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _player: {fileID: 1381585812}
   _playerRb: {fileID: 1381585818}
-  _movementSpeed: 0.1
+  _movementSpeed: 0.05
+--- !u!114 &1381585820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1381585812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 625784b8b7f46f54280945d2e86c4356, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1386195277
 PrefabInstance:
   m_ObjectHideFlags: 0
