@@ -1,64 +1,88 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
+using System.Threading.Tasks;
 using UnityEngine;
+using Utils.Extentions;
 
 namespace Player.Ability 
 {
-    public abstract class BaseAbility
+    public abstract class BaseAbility : IAbility
     {
+        private const float StickDeathZoneToAction = 0.33f;
         protected abstract string _name { get; set; }
         protected abstract Sprite _sprite { get; set; }
         protected abstract int _levelToUnlock { get; set; }
         protected abstract float _cooldown { get; set; }
 
-        private Action _playerInput;
+        public event Action<IAbility> Unlocked;
 
-        public event Action Unlocked;
+        private bool _isCooldown = false;
 
-        public void Initialization(Action<int> playerLevelChanget, Action playerInput, PlayerAction action)
+        protected PlayerController _player = null;
+        /* Do nothing */ protected abstract IInputable _inputable { get; set; }
+
+        protected Vector2 stickDirection = Vector2.zero;
+
+        public void Initialization(Action<int> playerLevelChanget, PlayerController player)
         {
             playerLevelChanget += PlayerLevelIncresed;
-            _playerInput = playerInput;
+            _player = player;
         }
 
-        private void UpdateValue()
+        public virtual void Update(Ray ray)
         {
 
         }
 
-        private void Unlock()
+        protected virtual void Unlock()
         {
-            Unlocked?.Invoke();
+            Unlocked?.Invoke(this);
         }
 
-        public void Pick()
+        protected virtual void DoAction()
         {
-            _playerInput += DoAction;
+
         }
 
-        public void Unpick()
+        public virtual void TryDoAction()
         {
-            _playerInput -= DoAction;
+            float maxDirection = stickDirection.HighestAbsValue();
+            if (maxDirection > StickDeathZoneToAction)
+            {
+                if (_isCooldown == true) return;
+                _isCooldown = true;
+                WaitCooldown();
+
+                DoAction();
+            }
         }
 
-        private void DoAction()
+        public void StickInput(Vector2 direction)
         {
-            
+            stickDirection = direction;
         }
 
-        private void PlayerLevelIncresed(int level)
+        public void PlayerLevelIncresed(int level)
         {
             if (level >= _levelToUnlock)
             {
                 Unlock();
             }
         }
+
+        private async void WaitCooldown()
+        {
+            await Task.Delay(Mathf.RoundToInt(_cooldown * 1000f));
+            _isCooldown = false;
+        }
     }
 
     public interface IAbility
     {
-        void Initialization(Action<int> playerLevelChanget);
+        public void Initialization(Action<int> playerLevelChanget, PlayerController player);
+        public void TryDoAction();
+        public void StickInput(Vector2 direction);
+        public void Update(Ray ray);
+        public event Action<IAbility> Unlocked;
+        public void PlayerLevelIncresed(int level);
     }
 }
