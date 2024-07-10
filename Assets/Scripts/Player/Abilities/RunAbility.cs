@@ -11,7 +11,7 @@ namespace Player.Ability
         protected override float _cooldown { get; set; } = 0f;
         protected override IInputable _inputable { get; set; } = new NonInputable();
 
-        private float _runPlayerSpeed = 0.1f;
+        private float _runPlayerSpeed = 0.075f;
 
         protected override void Unlock()
         {
