@@ -1,65 +1,67 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 namespace WorkWithCamera
 {
     public class CameraBounds : MonoBehaviour
     {
-        /*private Camera _camera = null;
-        private Plane[] _cameraFrustum = null;
-        private Collider _collider;
+        [SerializeField] private BoxCollider _trigger = null;
+        [SerializeField] private float _triggerSize = 1.0f;
+        private const int _RaycustDistance = 100;
 
         private void Start()
         {
-            _camera = Camera.main;
+            CheckObjectsInView();
         }
 
         private void Update()
         {
-            var bounds = _collider.bounds;
-            _cameraFrustum = GeometryUtility.CalculateFrustumPlanes(_camera);
-            if (GeometryUtility.TestPlanesAABB(_cameraFrustum, bounds))
-            {
-                gameObject.active = false;
-            }
-            else
-            {
-                gameObject.active = true;
-            }
+            CheckObjectsInView();
         }
 
-        private void OnCollisionEnter(Collision other)
+        private void CheckObjectsInView()
         {
-            Debug.Log(other.gameObject.name);
-            if (other.gameObject.name == "Camera")
+            Vector3 cameraPosition = transform.position;
+            List<RaycastHit> raycastHits = new List<RaycastHit>();
+            Vector3 direction = transform.forward * _RaycustDistance;
+            foreach (RaycastHit hit in Physics.RaycastAll(cameraPosition, direction))
             {
-                gameObject.SetActive(true);
+                if (hit.collider.gameObject.layer == 6)
+                {
+                    raycastHits.Add(hit);
+                }
             }
-        }
+            float scale = Vector3.Distance(cameraPosition, raycastHits[0].point);
 
-        private void OnTriggerEnter2D(Collider2D collision)
-        {
-            Debug.Log(collision.gameObject.name);
+            RaycastHit[] hitsArray = raycastHits.ToArray();
+
+
+
+            float distanceLastToFirst = Vector3.Distance(raycastHits[0].point, raycastHits[hitsArray.Length - 1].point);
+
+            if (distanceLastToFirst < 1)
+            {
+                distanceLastToFirst = 1;
+            }
+
+            _trigger.center = new Vector3(0, 0, hitsArray[0].distance + (distanceLastToFirst / 2));
+            _trigger.size = new Vector3(1 * scale * _triggerSize, 1 * scale * _triggerSize, distanceLastToFirst + 1);
         }
 
         private void OnTriggerEnter(Collider other)
         {
             Debug.Log(other.gameObject.name);
+            other.gameObject.GetComponent<MeshRenderer>().enabled = true;
         }
 
         private void OnTriggerExit(Collider other)
         {
-            Debug.Log(other.gameObject.name);
+            other.gameObject.GetComponent<MeshRenderer>().enabled = false;
         }
-
-        private void OnCollisionExit(Collision other)
-        {
-            Debug.Log(other.gameObject.name);
-            if (other.gameObject.name == "Camera")
-            {
-                gameObject.SetActive(false);
-            }
-        }*/
     }
 }
