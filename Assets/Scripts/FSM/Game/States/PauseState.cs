@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace FMS.Game
+namespace FSM.Game
 {
     public class PauseState : GameState
     {
-        public PauseState(GameStateMachine gsm, PlayerInput playerInput) : base(gsm, playerInput)
+        public PauseState(GameStateMachine gsm, PlayerInput playerInput, IViewManager viewManager) : base(gsm, playerInput, viewManager)
         {
 
         }
@@ -15,11 +16,17 @@ namespace FMS.Game
         public override void Enter()
         {
             PlayerInput.SwitchCurrentActionMap("UI");
+            ViewManager.ShowView(WindowTypes.MenuView);
         }
 
         public void SetToGameplayState()
         {
             Gsm.SetState<GameplayState>();
+        }
+
+        public override void Exit()
+        {
+            ViewManager.HideView(WindowTypes.MenuView);
         }
     }
 }

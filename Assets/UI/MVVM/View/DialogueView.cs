@@ -2,6 +2,7 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 namespace UI
 {
@@ -10,9 +11,22 @@ namespace UI
         [SerializeField] private TextMeshProUGUI _characterName = null;
         [SerializeField] private TextMeshProUGUI _conversationText = null;
 
+        [SerializeField] private Button _nextSentenceButton;
+
         public event Action NextSentenceClicked;
 
         private void OnEnable()
+        {
+            NextSentenceClicked?.Invoke();
+            _nextSentenceButton?.onClick.AddListener(ButtonNextSentenceClicked);
+        }
+
+        private void OnDisable()
+        {
+            _nextSentenceButton?.onClick.RemoveListener(ButtonNextSentenceClicked);
+        }
+
+        private void ButtonNextSentenceClicked()
         {
             NextSentenceClicked?.Invoke();
         }

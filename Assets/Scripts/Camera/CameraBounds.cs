@@ -36,6 +36,7 @@ namespace WorkWithCamera
                     raycastHits.Add(hit);
                 }
             }
+            if (raycastHits.Count == 0) return;
             float scale = Vector3.Distance(cameraPosition, raycastHits[0].point);
 
             RaycastHit[] hitsArray = raycastHits.ToArray();
@@ -55,13 +56,16 @@ namespace WorkWithCamera
 
         private void OnTriggerEnter(Collider other)
         {
-            Debug.Log(other.gameObject.name);
-            other.gameObject.GetComponent<MeshRenderer>().enabled = true;
+            MeshRenderer meshRenderer = other.gameObject.GetComponent<MeshRenderer>();
+            if (meshRenderer == null) return;
+            meshRenderer.enabled = true;
         }
 
         private void OnTriggerExit(Collider other)
         {
-            other.gameObject.GetComponent<MeshRenderer>().enabled = false;
+            MeshRenderer meshRenderer = other.gameObject.GetComponent<MeshRenderer>();
+            if (meshRenderer == null) return;
+            meshRenderer.enabled = false;
         }
     }
 }

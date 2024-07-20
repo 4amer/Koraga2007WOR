@@ -1,21 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
+using UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace FMS.Game
+namespace FSM.Game
 {
     public class DialogueState : GameState
     {
-        public DialogueState(GameStateMachine gsm, PlayerInput playerInput) : base(gsm, playerInput)
+        public DialogueState(GameStateMachine gsm, PlayerInput playerInput, IViewManager viewManager) : base(gsm, playerInput, viewManager)
         {
 
         }
 
         public override void Enter()
         {
-            PlayerInput.actions.FindActionMap("Dialogue").Enable();
+            var inputActionMap = PlayerInput.actions.FindActionMap("Dialogue");
+            if (inputActionMap.enabled == false)
+            {
+                inputActionMap.Enable();
+            }
             PlayerInput.SwitchCurrentActionMap("Dialogue");
+            ViewManager.ShowView(WindowTypes.DialogueView);
         }
 
         public void SetToGameplayState()
@@ -25,7 +31,12 @@ namespace FMS.Game
 
         public override void Exit()
         {
-            PlayerInput.actions.FindActionMap("Dialogue").Disable();
+            var inputActionMap = PlayerInput.actions.FindActionMap("Dialogue");
+            if (inputActionMap.enabled == true)
+            {
+                inputActionMap.Disable();
+            }
+            ViewManager.HideView(WindowTypes.DialogueView);
         }
     }
 }

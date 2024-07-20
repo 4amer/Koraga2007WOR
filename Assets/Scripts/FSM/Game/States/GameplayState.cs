@@ -1,21 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
+using UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace FMS.Game
+namespace FSM.Game
 {
     public class GameplayState : GameState
     {
-        public GameplayState(GameStateMachine gsm, PlayerInput playerInput) : base(gsm, playerInput)
+        public GameplayState(GameStateMachine gsm, PlayerInput playerInput, IViewManager viewManager) : base(gsm, playerInput, viewManager)
         {
 
         }
 
         public override void Enter()
         {
-            PlayerInput.actions.FindActionMap("GamePlay").Enable();
-            PlayerInput.SwitchCurrentActionMap("GamePlay");
+            ViewManager.ShowView(WindowTypes.GameView);
+            ViewManager.ShowView(WindowTypes.MobileView);
+            var gameplayActionMap = PlayerInput.actions.FindActionMap("GamePlay");
+            var UIActionMap = PlayerInput.actions.FindActionMap("UI");
+            gameplayActionMap.Enable();
+            UIActionMap.Enable();
+            //PlayerInput.SwitchCurrentActionMap("GamePlay");
         }
 
         public void SetToDialogueState()
@@ -23,9 +27,18 @@ namespace FMS.Game
             Gsm.SetState<DialogueState>();
         }
 
+        public void SetToCutsceneState()
+        {
+            Gsm.SetState<CutsceneState>();
+        }
+
         public override void Exit()
         {
-            PlayerInput.actions.FindActionMap("GamePlay").Disable();
+            var gameplayActionMap = PlayerInput.actions.FindActionMap("GamePlay");
+            var UIActionMap = PlayerInput.actions.FindActionMap("UI");
+            gameplayActionMap.Disable();
+            ViewManager.HideView(WindowTypes.GameView);
+            ViewManager.HideView(WindowTypes.MobileView);
         }
     }
 }

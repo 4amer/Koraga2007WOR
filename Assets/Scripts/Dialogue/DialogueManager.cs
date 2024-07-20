@@ -1,5 +1,7 @@
+using MobileInput;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -9,8 +11,6 @@ namespace DialogueSystem
 {
     public sealed class DialogueManager : MonoBehaviour, IDialogueManager
     {
-        private IViewManager _viewManager;
-
         private Dialogue _currentDialogue;
         private Queue<Sentence> _sentences;
 
@@ -25,9 +25,17 @@ namespace DialogueSystem
         private List<DialogueTrigger> _triggersWherePlayerStay = new List<DialogueTrigger>();
 
         [Inject]
-        public void Construct(DialogueTrigger[] triggers, IViewManager vm)
+        public void Construct(DialogueTrigger[] triggers, IScreenButton[] buttons)
         {
-            _viewManager = vm;
+            foreach (ScreenButton button in buttons)
+            {
+                switch (button.ButtonBehaviour)
+                {
+                    case ButtonBehaviour.Action:
+                        button.Button.onClick.AddListener(EtheractButtonClick);
+                        break;
+                }
+            }
             foreach (DialogueTrigger trigger in triggers)
             {
                 trigger.DialogueStarted += StartDialogue;
@@ -40,8 +48,6 @@ namespace DialogueSystem
         {
             _currentDialogue = dialogue;
             _sentences = new Queue<Sentence>(_currentDialogue.sentences);
-            Debug.Log(_viewManager == null);
-            _viewManager.ShowView(WindowTypes.DialogueWindow);
             _idDialogueStarted = true;
             DialogueStart?.Invoke();
         }
@@ -51,7 +57,6 @@ namespace DialogueSystem
             if (_currentDialogue.nextDialogueAfterEnd == null)
             {
                 DialogueEnd?.Invoke();
-                _viewManager.HideView(WindowTypes.DialogueWindow);
                 _idDialogueStarted = false;
                 _currentDialogue = null;
                 return;
@@ -68,6 +73,7 @@ namespace DialogueSystem
 
         public Sentence NextSetence()
         {
+            Debug.Log(_sentences.Count);
             if (_sentences == null || _sentences.Count == 0)
             {
                 NextDialogue();
@@ -86,7 +92,7 @@ namespace DialogueSystem
             _triggersWherePlayerStay.Remove(trigger);
         }
 
-        public void EtheractButtonClick(InputAction.CallbackContext context)
+        public void EtheractButtonClick()
         {
             if (_triggersWherePlayerStay.Count == 0 || _idDialogueStarted) return;
 

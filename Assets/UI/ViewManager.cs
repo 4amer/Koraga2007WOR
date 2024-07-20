@@ -30,7 +30,6 @@ namespace UI
         {
             BaseView view = FindView(type);
             view.Show();
-            Debug.Log(view == null);
             viewStack.Add(view);
             viewShowed?.Invoke(type);
         }

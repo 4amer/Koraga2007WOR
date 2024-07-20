@@ -1,12 +1,14 @@
+using CutsceneSystem;
 using DialogueSystem;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Zenject;
 
-namespace FMS.Game
+namespace FSM.Game
 {
     public class GameStateMachine : IGameStateMachine
     {
@@ -15,22 +17,29 @@ namespace FMS.Game
         private Dictionary<Type, GameState> _states = new Dictionary<Type, GameState>();
 
         private PlayerInput _playerInput;
+        private IViewManager _viewManager;
 
         [Inject]
-        public void Construct(PlayerInput playerInput, IDialogueManager dialogueManager)
+        public void Construct(PlayerInput playerInput, IDialogueManager dialogueManager, ICutsceneManager cutsceneManager, IViewManager viewManager)
         {
             _playerInput = playerInput;
+            _viewManager = viewManager;
 
-            PauseState pauseState = new PauseState(this, _playerInput);
-            GameplayState gameplayState = new GameplayState(this, _playerInput);
-            DialogueState dialogueState = new DialogueState(this, _playerInput);
+            PauseState pauseState = new PauseState(this, _playerInput, _viewManager);
+            GameplayState gameplayState = new GameplayState(this, _playerInput, _viewManager);
+            DialogueState dialogueState = new DialogueState(this, _playerInput, _viewManager);
+            CutsceneState cutsceneState = new CutsceneState(this, _playerInput, _viewManager);
 
             dialogueManager.DialogueStart += gameplayState.SetToDialogueState;
             dialogueManager.DialogueEnd += dialogueState.SetToGameplayState;
 
+            cutsceneManager.CutsceneStarted += gameplayState.SetToCutsceneState;
+            cutsceneManager.CutsceneEnded += cutsceneState.SetToGameplayState;
+
             AddState(pauseState);
             AddState(gameplayState);
             AddState(dialogueState);
+            AddState(cutsceneState);
 
             SetState<GameplayState>();
         }
