@@ -1,7 +1,4 @@
 using FSM.Game;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Zenject;
 
 namespace FSM
@@ -10,7 +7,8 @@ namespace FSM
     {
         public override void InstallBindings()
         {
-            Container.Bind<IGameStateMachine>().To<GameStateMachine>().AsSingle().NonLazy();
+            Container.BindInterfacesTo<GameStateMachine>().AsSingle().NonLazy();
+
         }
     }
 }

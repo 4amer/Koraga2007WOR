@@ -18,5 +18,10 @@ namespace FSM.Game
         {
             Gsm.SetState<GameplayState>();
         }
+
+        public void SetToDialogueState()
+        {
+            Gsm.SetState<DialogueState>();
+        }
     }
 }

@@ -1,5 +1,6 @@
 using CutsceneSystem;
 using DialogueSystem;
+using JoystickSystem;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,14 +11,17 @@ using Zenject;
 
 namespace FSM.Game
 {
-    public class GameStateMachine : IGameStateMachine
+    public class GameStateMachine : IGameStateMachine, IGameStateMachineState, IGameStateMachineActions
     {
-        private GameState _currentState;
+        private GameState _previousState = null;
+        private GameState _currentState = null;
 
         private Dictionary<Type, GameState> _states = new Dictionary<Type, GameState>();
 
         private PlayerInput _playerInput;
         private IViewManager _viewManager;
+
+        public event Action StateChanged;
 
         [Inject]
         public void Construct(PlayerInput playerInput, IDialogueManager dialogueManager, ICutsceneManager cutsceneManager, IViewManager viewManager)
@@ -59,11 +63,49 @@ namespace FSM.Game
             }
             if (_states.TryGetValue(type, out var newState))
             {
+                StateChanged?.Invoke();
+                Debug.Log((StateChanged == null) + " state");
+
                 _currentState?.Exit();
+
+                _previousState = _currentState;
 
                 _currentState = newState;
 
                 _currentState?.Enter();
+            }
+        }
+
+        public void SetToPreviousState()
+        {
+            if (_previousState == null || _currentState == null) return;
+            
+            StateChanged?.Invoke();
+
+            _currentState?.Exit();
+            
+            var state = _previousState;
+            
+            _previousState = _currentState;
+            
+            _currentState = state;
+            
+            _currentState?.Enter();
+        }
+
+        public GameState PreviouseState
+        {
+            get
+            {
+                return _previousState;
+            }
+        }
+
+        public GameState CurrentState
+        {
+            get
+            {
+                return _currentState;
             }
         }
     }
@@ -71,5 +113,17 @@ namespace FSM.Game
     public interface IGameStateMachine
     {
         void SetState<T>() where T : GameState;
+        public void SetToPreviousState();
+    }
+
+    public interface IGameStateMachineState
+    {
+        public GameState PreviouseState { get; }
+        public GameState CurrentState { get; }
+    }
+
+    public interface IGameStateMachineActions 
+    { 
+        public event Action StateChanged;
     }
 }

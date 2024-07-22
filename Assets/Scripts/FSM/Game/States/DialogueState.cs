@@ -29,6 +29,11 @@ namespace FSM.Game
             Gsm.SetState<GameplayState>();
         }
 
+        public void SetToCutsceneState()
+        {
+            Gsm.SetState<CutsceneState>();
+        }
+
         public override void Exit()
         {
             var inputActionMap = PlayerInput.actions.FindActionMap("Dialogue");

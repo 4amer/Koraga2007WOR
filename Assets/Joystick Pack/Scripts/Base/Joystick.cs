@@ -1,14 +1,18 @@
-﻿using System;
+﻿using FSM.Game;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Zenject;
 
 public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
     public float Horizontal { get { return (snapX) ? SnapFloat(input.x, AxisOptions.Horizontal) : input.x; } }
     public float Vertical { get { return (snapY) ? SnapFloat(input.y, AxisOptions.Vertical) : input.y; } }
     public Vector2 Direction { get { return new Vector2(Horizontal, Vertical); } }
+
+    public bool IsStickDraggable = true;
 
     public float HandleRange
     {
@@ -45,6 +49,12 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
 
     private Vector2 input = Vector2.zero;
 
+    [Inject]
+    public void Construct(IGameStateMachineActions gameStateMachineActions)
+    {
+        gameStateMachineActions.StateChanged += StickByDefault;
+    }
+
     protected virtual void Start()
     {
         HandleRange = handleRange;
@@ -70,6 +80,7 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
 
     public void OnDrag(PointerEventData eventData)
     {
+        Debug.Log("Stick Up");
         cam = null;
         if (canvas.renderMode == RenderMode.ScreenSpaceCamera)
             cam = canvas.worldCamera;
@@ -138,6 +149,12 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
 
     public virtual void OnPointerUp(PointerEventData eventData)
     {
+        StickByDefault();
+    }
+
+    private void StickByDefault()
+    {
+        Debug.Log("Stick Down");
         input = Vector2.zero;
         handle.anchoredPosition = Vector2.zero;
         OnPointUp?.Invoke();

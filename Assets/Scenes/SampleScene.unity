@@ -169,8 +169,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _triggerObject: {fileID: 8194857}
-  _triggerWhenActionButtonPressed: 1
-  _triggerOnEnter: 0
+  _triggerWhenActionButtonPressed: 0
+  _triggerOnEnter: 1
   _offTriggerAhterAction: 0
   asset: {fileID: 11400000, guid: 011b1e0ae9d387c4fa5152b651dd469a, type: 2}
 --- !u!65 &8194860
@@ -10788,8 +10788,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _triggerObject: {fileID: 1863923783}
-  _triggerWhenActionButtonPressed: 1
-  _triggerOnEnter: 0
+  _triggerWhenActionButtonPressed: 0
+  _triggerOnEnter: 1
   _offTriggerAhterAction: 0
   _dialogue: {fileID: 11400000, guid: 111eaf75ff32e5946825cc8ee117b067, type: 2}
 --- !u!1001 &1870218291

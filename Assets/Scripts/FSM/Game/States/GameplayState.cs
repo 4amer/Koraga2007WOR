@@ -19,7 +19,6 @@ namespace FSM.Game
             var UIActionMap = PlayerInput.actions.FindActionMap("UI");
             gameplayActionMap.Enable();
             UIActionMap.Enable();
-            //PlayerInput.SwitchCurrentActionMap("GamePlay");
         }
 
         public void SetToDialogueState()
@@ -35,7 +34,6 @@ namespace FSM.Game
         public override void Exit()
         {
             var gameplayActionMap = PlayerInput.actions.FindActionMap("GamePlay");
-            var UIActionMap = PlayerInput.actions.FindActionMap("UI");
             gameplayActionMap.Disable();
             ViewManager.HideView(WindowTypes.GameView);
             ViewManager.HideView(WindowTypes.MobileView);
