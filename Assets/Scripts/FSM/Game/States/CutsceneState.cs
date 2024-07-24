@@ -1,17 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
-using UI;
-using UnityEngine;
-using UnityEngine.AI;
-using UnityEngine.InputSystem;
+using CutsceneSystem;
 
 namespace FSM.Game
 {
     public class CutsceneState : GameState
     {
-        public CutsceneState(GameStateMachine gsm, PlayerInput playerInput, IViewManager viewManager) : base(gsm, playerInput, viewManager)
-        {
+        private ICutsceneManager _cutsceneManager;
 
+        public CutsceneState(GameStateMachine gsm, ICutsceneManager cutsceneManager) : base(gsm)
+        {
+            _cutsceneManager = cutsceneManager;
         }
 
         public void SetToGameplayState()
@@ -22,6 +19,16 @@ namespace FSM.Game
         public void SetToDialogueState()
         {
             Gsm.SetState<DialogueState>();
+        }
+
+        public override void Enter()
+        {
+            if (Gsm.PreviouseState is DialogueState) _cutsceneManager.ResumeCutscene();
+        }
+
+        public override void Exit()
+        {
+            _cutsceneManager.PauseCutscene();
         }
     }
 }

@@ -9,7 +9,7 @@ namespace CutsceneSystem
     {
         public override void InstallBindings()
         {
-            Container.Bind<ICutsceneManager>().To<CutsceneManager>().FromComponentInHierarchy().AsSingle().NonLazy();
+            Container.BindInterfacesTo<CutsceneManager>().FromComponentInHierarchy().AsSingle().NonLazy();
             Container.Bind<CutsceneTrigger>().FromComponentsInHierarchy().AsSingle().NonLazy();
         }
     }

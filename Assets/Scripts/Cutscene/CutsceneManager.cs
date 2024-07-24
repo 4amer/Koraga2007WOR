@@ -10,7 +10,7 @@ using Zenject;
 
 namespace CutsceneSystem
 {
-    public class CutsceneManager : MonoBehaviour, ICutsceneManager
+    public class CutsceneManager : MonoBehaviour, ICutsceneManagerActions, ICutsceneManager
     {
         [SerializeField] private PlayableDirector _playableDirector = null;
 
@@ -67,6 +67,7 @@ namespace CutsceneSystem
         private void EndCutscene(PlayableDirector director)
         {
             _cutsceneStarted = false;
+            _playableDirector.playableAsset = null;
             CutsceneEnded?.Invoke();
         }
 
@@ -77,9 +78,26 @@ namespace CutsceneSystem
 
             StartCutscene(_triggersWherePlayerStay[0].TimelineAsset);
         }
+
+        public void PauseCutscene()
+        {
+            _playableDirector?.Pause();
+        }
+
+        public void ResumeCutscene()
+        {
+            if (_playableDirector.playableAsset == null) return; 
+            _playableDirector?.Play();
+        }
     }
 
     public interface ICutsceneManager
+    {
+        public void PauseCutscene();
+        public void ResumeCutscene();
+    }
+
+    public interface ICutsceneManagerActions
     {
         public event Action CutsceneStarted;
         public event Action CutsceneEnded;

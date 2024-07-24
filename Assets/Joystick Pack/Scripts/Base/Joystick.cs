@@ -80,7 +80,6 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
 
     public void OnDrag(PointerEventData eventData)
     {
-        Debug.Log("Stick Up");
         cam = null;
         if (canvas.renderMode == RenderMode.ScreenSpaceCamera)
             cam = canvas.worldCamera;
@@ -154,7 +153,6 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
 
     private void StickByDefault()
     {
-        Debug.Log("Stick Down");
         input = Vector2.zero;
         handle.anchoredPosition = Vector2.zero;
         OnPointUp?.Invoke();

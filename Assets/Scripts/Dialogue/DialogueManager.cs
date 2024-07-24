@@ -44,7 +44,7 @@ namespace DialogueSystem
             }
         }
 
-        private void StartDialogue(Dialogue dialogue)
+        public void StartDialogue(Dialogue dialogue)
         {
             _currentDialogue = dialogue;
             _sentences = new Queue<Sentence>(_currentDialogue.sentences);
@@ -73,7 +73,6 @@ namespace DialogueSystem
 
         public Sentence NextSetence()
         {
-            Debug.Log(_sentences.Count);
             if (_sentences == null || _sentences.Count == 0)
             {
                 NextDialogue();

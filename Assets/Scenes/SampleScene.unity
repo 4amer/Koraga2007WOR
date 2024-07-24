@@ -2502,6 +2502,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc1788b1d12b65e4296ec8f1ad3d17fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsStickDraggable: 1
   handleRange: 1
   deadZone: 0
   axisOptions: 0
@@ -7292,6 +7293,7 @@ GameObject:
   - component: {fileID: 1277332217}
   - component: {fileID: 1277332218}
   - component: {fileID: 1277332219}
+  - component: {fileID: 1277332220}
   m_Layer: 0
   m_Name: CutsceneManager
   m_TagString: Untagged
@@ -7336,7 +7338,7 @@ PlayableDirector:
   m_GameObject: {fileID: 1277332216}
   m_Enabled: 1
   serializedVersion: 3
-  m_PlayableAsset: {fileID: 0}
+  m_PlayableAsset: {fileID: 11400000, guid: 011b1e0ae9d387c4fa5152b651dd469a, type: 2}
   m_InitialState: 0
   m_WrapMode: 2
   m_DirectorUpdateMode: 1
@@ -7344,8 +7346,40 @@ PlayableDirector:
   m_SceneBindings:
   - key: {fileID: -5646105117592458302, guid: 011b1e0ae9d387c4fa5152b651dd469a, type: 2}
     value: {fileID: 2143888910}
+  - key: {fileID: 3369044584310381291, guid: 011b1e0ae9d387c4fa5152b651dd469a, type: 2}
+    value: {fileID: 1834723955}
   m_ExposedReferences:
     m_References: []
+--- !u!114 &1277332220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1277332216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: 7df4213f692ce5b40a2fd6506355627f, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1834723954}
+          m_TargetAssemblyTypeName: DialogueSystem.DialogueManager, Assembly-CSharp
+          m_MethodName: StartDialogue
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 11400000, guid: 111eaf75ff32e5946825cc8ee117b067, type: 2}
+            m_ObjectArgumentAssemblyTypeName: DialogueSystem.Dialogue, Assembly-CSharp
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1001 &1295307206
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10539,6 +10573,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1834723953}
   - component: {fileID: 1834723954}
+  - component: {fileID: 1834723955}
   m_Layer: 0
   m_Name: DialogueManager
   m_TagString: Untagged
@@ -10573,6 +10608,66 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 597c3d0e94de0494484945d7b59f1464, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1834723955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1834723952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: 7df4213f692ce5b40a2fd6506355627f, type: 2}
+    - {fileID: 11400000, guid: f8d9943e042152240be7a017e112ed4a, type: 2}
+    - {fileID: 11400000, guid: e1f881b2af4a483418f2062d0310135e, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1834723954}
+          m_TargetAssemblyTypeName: DialogueSystem.DialogueManager, Assembly-CSharp
+          m_MethodName: StartDialogue
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 11400000, guid: 111eaf75ff32e5946825cc8ee117b067, type: 2}
+            m_ObjectArgumentAssemblyTypeName: DialogueSystem.Dialogue, Assembly-CSharp
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1834723954}
+          m_TargetAssemblyTypeName: DialogueSystem.DialogueManager, Assembly-CSharp
+          m_MethodName: StartDialogue
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 11400000, guid: 111eaf75ff32e5946825cc8ee117b067, type: 2}
+            m_ObjectArgumentAssemblyTypeName: DialogueSystem.Dialogue, Assembly-CSharp
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1834723954}
+          m_TargetAssemblyTypeName: DialogueSystem.DialogueManager, Assembly-CSharp
+          m_MethodName: StartDialogue
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 11400000, guid: 111eaf75ff32e5946825cc8ee117b067, type: 2}
+            m_ObjectArgumentAssemblyTypeName: DialogueSystem.Dialogue, Assembly-CSharp
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1001 &1836077857
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12588,6 +12683,7 @@ GameObject:
   - component: {fileID: 2143888909}
   - component: {fileID: 2143888907}
   - component: {fileID: 2143888910}
+  - component: {fileID: 2143888911}
   m_Layer: 0
   m_Name: KoragaJr
   m_TagString: Untagged
@@ -12681,6 +12777,21 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2143888911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2143888905}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Events:
+    m_Signals: []
+    m_Events: []
 --- !u!222 &2929252283647662144
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -12845,6 +12956,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c70c8721e9a3114faeb9503563391db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsStickDraggable: 1
   handleRange: 1
   deadZone: 0
   axisOptions: 0

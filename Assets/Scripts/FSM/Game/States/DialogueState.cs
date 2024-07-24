@@ -1,47 +1,50 @@
-using System.Collections;
-using System.Collections.Generic;
 using UI;
-using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace FSM.Game
 {
     public class DialogueState : GameState
     {
-        public DialogueState(GameStateMachine gsm, PlayerInput playerInput, IViewManager viewManager) : base(gsm, playerInput, viewManager)
-        {
+        private PlayerInput _playerInput = null;
+        private IViewManager _viewManager = null;
 
+        public DialogueState(GameStateMachine gsm, PlayerInput playerInput, IViewManager viewManager) : base(gsm) 
+        {
+            _playerInput = playerInput;
+            _viewManager = viewManager;
         }
 
         public override void Enter()
         {
-            var inputActionMap = PlayerInput.actions.FindActionMap("Dialogue");
+            var inputActionMap = _playerInput.actions.FindActionMap("Dialogue");
             if (inputActionMap.enabled == false)
             {
                 inputActionMap.Enable();
             }
-            PlayerInput.SwitchCurrentActionMap("Dialogue");
-            ViewManager.ShowView(WindowTypes.DialogueView);
+            _playerInput.SwitchCurrentActionMap("Dialogue");
+            _viewManager.ShowView(WindowTypes.DialogueView);
         }
 
-        public void SetToGameplayState()
+        public void SetState()
         {
-            Gsm.SetState<GameplayState>();
-        }
-
-        public void SetToCutsceneState()
-        {
-            Gsm.SetState<CutsceneState>();
+            if(Gsm.PreviouseState is CutsceneState)
+            {
+                Gsm.SetState<CutsceneState>();
+            } 
+            else
+            {
+                Gsm.SetState<GameplayState>();
+            }
         }
 
         public override void Exit()
         {
-            var inputActionMap = PlayerInput.actions.FindActionMap("Dialogue");
+            var inputActionMap = _playerInput.actions.FindActionMap("Dialogue");
             if (inputActionMap.enabled == true)
             {
                 inputActionMap.Disable();
             }
-            ViewManager.HideView(WindowTypes.DialogueView);
+            _viewManager.HideView(WindowTypes.DialogueView);
         }
     }
 }

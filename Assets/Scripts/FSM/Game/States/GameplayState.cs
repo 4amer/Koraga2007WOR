@@ -1,22 +1,25 @@
 using UI;
-using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace FSM.Game
 {
     public class GameplayState : GameState
     {
-        public GameplayState(GameStateMachine gsm, PlayerInput playerInput, IViewManager viewManager) : base(gsm, playerInput, viewManager)
-        {
+        private PlayerInput _playerInput = null;
+        private IViewManager _viewManager = null;
 
+        public GameplayState(GameStateMachine gsm, IViewManager viewManager, PlayerInput playerInput) : base(gsm)
+        {
+            _playerInput = playerInput;
+            _viewManager = viewManager;
         }
 
         public override void Enter()
         {
-            ViewManager.ShowView(WindowTypes.GameView);
-            ViewManager.ShowView(WindowTypes.MobileView);
-            var gameplayActionMap = PlayerInput.actions.FindActionMap("GamePlay");
-            var UIActionMap = PlayerInput.actions.FindActionMap("UI");
+            _viewManager.ShowView(WindowTypes.GameView);
+            _viewManager.ShowView(WindowTypes.MobileView);
+            var gameplayActionMap = _playerInput.actions.FindActionMap("GamePlay");
+            var UIActionMap = _playerInput.actions.FindActionMap("UI");
             gameplayActionMap.Enable();
             UIActionMap.Enable();
         }
@@ -33,10 +36,10 @@ namespace FSM.Game
 
         public override void Exit()
         {
-            var gameplayActionMap = PlayerInput.actions.FindActionMap("GamePlay");
+            var gameplayActionMap = _playerInput.actions.FindActionMap("GamePlay");
             gameplayActionMap.Disable();
-            ViewManager.HideView(WindowTypes.GameView);
-            ViewManager.HideView(WindowTypes.MobileView);
+            _viewManager.HideView(WindowTypes.GameView);
+            _viewManager.HideView(WindowTypes.MobileView);
         }
     }
 }

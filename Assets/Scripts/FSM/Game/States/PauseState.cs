@@ -1,22 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using UI;
-using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace FSM.Game
 {
     public class PauseState : GameState
     {
-        public PauseState(GameStateMachine gsm, PlayerInput playerInput, IViewManager viewManager) : base(gsm, playerInput, viewManager)
-        {
+        private PlayerInput _playerInput = null;
+        private IViewManager _viewManager = null;
 
+        public PauseState(GameStateMachine gsm, PlayerInput playerInput, IViewManager viewManager) : base(gsm)
+        {
+            _playerInput = playerInput;
+            _viewManager = viewManager;
         }
 
         public override void Enter()
         {
-            PlayerInput.SwitchCurrentActionMap("UI");
-            ViewManager.ShowView(WindowTypes.MenuView);
+            _playerInput.SwitchCurrentActionMap("UI");
+            _viewManager.ShowView(WindowTypes.MenuView);
         }
 
         public void SetToGameplayState()
@@ -26,7 +27,7 @@ namespace FSM.Game
 
         public override void Exit()
         {
-            ViewManager.HideView(WindowTypes.MenuView);
+            _viewManager.HideView(WindowTypes.MenuView);
         }
     }
 }

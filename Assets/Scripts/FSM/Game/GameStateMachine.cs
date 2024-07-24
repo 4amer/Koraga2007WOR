@@ -1,11 +1,8 @@
 using CutsceneSystem;
 using DialogueSystem;
-using JoystickSystem;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UI;
-using UnityEngine;
 using UnityEngine.InputSystem;
 using Zenject;
 
@@ -24,21 +21,22 @@ namespace FSM.Game
         public event Action StateChanged;
 
         [Inject]
-        public void Construct(PlayerInput playerInput, IDialogueManager dialogueManager, ICutsceneManager cutsceneManager, IViewManager viewManager)
+        public void Construct(PlayerInput playerInput, IDialogueManager dialogueManager,
+            ICutsceneManagerActions cutsceneManagerActions, ICutsceneManager cutsceneManager, IViewManager viewManager)
         {
             _playerInput = playerInput;
             _viewManager = viewManager;
 
             PauseState pauseState = new PauseState(this, _playerInput, _viewManager);
-            GameplayState gameplayState = new GameplayState(this, _playerInput, _viewManager);
+            GameplayState gameplayState = new GameplayState(this, _viewManager, _playerInput);
             DialogueState dialogueState = new DialogueState(this, _playerInput, _viewManager);
-            CutsceneState cutsceneState = new CutsceneState(this, _playerInput, _viewManager);
+            CutsceneState cutsceneState = new CutsceneState(this, cutsceneManager);
 
             dialogueManager.DialogueStart += gameplayState.SetToDialogueState;
-            dialogueManager.DialogueEnd += dialogueState.SetToGameplayState;
+            dialogueManager.DialogueEnd += dialogueState.SetState;
 
-            cutsceneManager.CutsceneStarted += gameplayState.SetToCutsceneState;
-            cutsceneManager.CutsceneEnded += cutsceneState.SetToGameplayState;
+            cutsceneManagerActions.CutsceneStarted += gameplayState.SetToCutsceneState;
+            cutsceneManagerActions.CutsceneEnded += cutsceneState.SetToGameplayState;
 
             AddState(pauseState);
             AddState(gameplayState);
@@ -64,7 +62,6 @@ namespace FSM.Game
             if (_states.TryGetValue(type, out var newState))
             {
                 StateChanged?.Invoke();
-                Debug.Log((StateChanged == null) + " state");
 
                 _currentState?.Exit();
 
