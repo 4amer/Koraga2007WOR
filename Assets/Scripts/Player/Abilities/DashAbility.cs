@@ -1,5 +1,7 @@
 using Player.Ability;
+using SoundSystem;
 using UnityEngine;
+using Zenject;
 public class DashAbility : BaseAbility
 {
     protected override string _name { get; set; } = "Dash";
@@ -11,6 +13,14 @@ public class DashAbility : BaseAbility
     private Vector3 directioToForcePlayer = Vector3.zero;
     private const float _DashForce = 250f;
     private const float _UpForce = 0.5f;
+
+    private ISoundManager _soundManager = null;
+
+    [Inject]
+    public void Construct(ISoundManager soundManager)
+    {
+        _soundManager = soundManager;
+    }
 
     public override void Update(Ray ray)
     {
