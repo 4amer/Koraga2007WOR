@@ -22,8 +22,6 @@ namespace SoundSystem
                                                                   item => item.clip);
             _musicsAudioClipStore = _musicsAudioClip.ToDictionary(item => item.name, 
                                                                   item => item.clip);
-
-            PlayLoopMusic(EnumSounds.Spy);
         }
 
         public void PlayLoopMusic(EnumSounds music)
